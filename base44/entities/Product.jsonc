@@ -1,0 +1,81 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Product Name"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "price": {
+      "type": "number",
+      "title": "Price"
+    },
+    "type": {
+      "type": "string",
+      "title": "Product Type",
+      "enum": [
+        "Gift Box",
+        "Individual Item"
+      ],
+      "default": "Gift Box"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category"
+    },
+    "image": {
+      "type": "string",
+      "title": "Product Image URL"
+    },
+    "inclusions": {
+      "type": "array",
+      "title": "What's Inside",
+      "items": {
+        "type": "string"
+      }
+    },
+    "badge": {
+      "type": "string",
+      "title": "Badge",
+      "enum": [
+        "",
+        "Best Seller",
+        "New Arrival"
+      ]
+    },
+    "gender": {
+      "type": "string",
+      "title": "Gender Filter",
+      "enum": [
+        "all",
+        "him",
+        "her"
+      ],
+      "default": "all"
+    },
+    "best_seller": {
+      "type": "boolean",
+      "title": "Best Seller",
+      "default": false
+    },
+    "hidden": {
+      "type": "boolean",
+      "title": "Hidden",
+      "default": false
+    },
+    "featured": {
+      "type": "boolean",
+      "title": "Featured on Home",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "price",
+    "category"
+  ]
+}
