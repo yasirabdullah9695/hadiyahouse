@@ -4,7 +4,7 @@
  * Backend: http://localhost:5000 (dev) ya deployed URL
  */
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
 // ─── Token Management ────────────────────────────────────────────────────────
 const TOKEN_KEY = 'hadiya_admin_token';

@@ -9,11 +9,11 @@ module.exports = {
       max_memory_restart: "500M", // Auto-restarts if memory exceeds 500MB
       env: {
         NODE_ENV: "development",
-        PORT: 5000,
+        PORT: 3000,
       },
       env_production: {
         NODE_ENV: "production",
-        PORT: 5000,
+        PORT: 3000,
       },
     },
   ],
