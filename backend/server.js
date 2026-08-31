@@ -139,11 +139,12 @@ app.use(errorHandler);
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
+// Bind explicitly to 0.0.0.0 so platform routers (Render, Heroku) detect the listening port
+const HOST = process.env.HOST || '0.0.0.0';
+const server = app.listen(PORT, HOST, () => {
   console.log(`\n🚀 Hadiya House High-Scalability Backend active!`);
-  console.log(`📍 Server: http://localhost:${PORT}`);
+  console.log(`📍 Server: http://${HOST}:${PORT} (bound)`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🛡️ Rate Limiter, Helmet Security, Gzip Compression & Crash Guards Active.\n`);
-});
 
 module.exports = app;
