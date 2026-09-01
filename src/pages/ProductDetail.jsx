@@ -55,7 +55,15 @@ export default function ProductDetail() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/20">
               {product.image ? (
-                <Image src={product.image} alt={product.name} className="w-full h-full" fittingType="fill" />
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
+                  }}
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">HADIYA HOUSE</div>
               )}

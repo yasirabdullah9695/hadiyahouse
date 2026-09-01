@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, ShoppingBag } from "lucide-react";
-import { Image } from "@/components/ui/image";
 import OrderModal from "@/components/OrderModal";
 
 const PREMIUM_EASE = [0.22, 1, 0.36, 1];
+const DEFAULT_FALLBACK = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
 
 export default function ProductCard({ product, index = 0 }) {
   const [liked, setLiked] = useState(false);
@@ -16,6 +16,8 @@ export default function ProductCard({ product, index = 0 }) {
     "New Arrival": "bg-[#4A5D4E] text-[#F9F7F2]",
     "Customisable": "bg-[#1A1F2C] text-[#D4C3A5]",
   };
+
+  const imageSrc = product.image || DEFAULT_FALLBACK;
 
   return (
     <>
@@ -45,17 +47,16 @@ export default function ProductCard({ product, index = 0 }) {
         </button>
 
         {/* Product Image */}
-        <Link to={`/product/${product.id}`} className="block aspect-[4/5] overflow-hidden bg-[#F0EDE5] relative">
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full transition-transform duration-700 group-hover:scale-105"
-              fittingType="fill"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[10px] tracking-widest font-bold">HADIYA HOUSE</div>
-          )}
+        <Link to={`/product/${product.id || product._id}`} className="block aspect-[4/5] overflow-hidden bg-[#F0EDE5] relative">
+          <img
+            src={imageSrc}
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = DEFAULT_FALLBACK;
+            }}
+          />
           
           {/* Quick Order Hover Button Overlay */}
           <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
@@ -80,7 +81,7 @@ export default function ProductCard({ product, index = 0 }) {
                 {product.category}
               </p>
             )}
-            <Link to={`/product/${product.id}`}>
+            <Link to={`/product/${product.id || product._id}`}>
               <h3 className="font-display text-[14px] sm:text-[15px] font-medium tracking-wide text-[#1A1F2C] leading-snug hover:text-[#4A5D4E] transition-colors line-clamp-2">
                 {product.name}
               </h3>
