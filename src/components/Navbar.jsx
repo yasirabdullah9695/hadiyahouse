@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, ShoppingBag, Menu, X } from "lucide-react";
-import { LOGO_ICON_URL } from "@/lib/constants";
+import AnnouncementBar from "@/components/AnnouncementBar";
 
 const NAV_LINKS = [
   { label: "HOME", to: "/" },
   { label: "SHOP", to: "/shop" },
-  { label: "GIFT BOXES", to: "/shop" },
-  { label: "OCCASIONS", to: "/#categories" },
+  { label: "GIFT BOXES", to: "/shop?category=Gift+Boxes" },
+  { label: "CALLIGRAPHY", to: "/shop?category=Custom+Calligraphy+Frame" },
   { label: "ABOUT US", to: "/#about" },
   { label: "CONTACT", to: "/#contact" },
 ];
@@ -16,7 +13,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#1A1F2C] border-b border-[#D4C3A5]/20 shadow-md">
+    <>
+      <AnnouncementBar />
+      <header className="sticky top-0 z-50 bg-[#1A1F2C] border-b border-[#D4C3A5]/20 shadow-md">
       <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -104,5 +103,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }
