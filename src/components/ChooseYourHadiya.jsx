@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Check, Plus, Minus, ArrowRight, Sparkles, ShoppingBag, ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
+import { Check, Plus, Minus, ArrowRight, Sparkles, ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import { motion } from "framer-motion";
 import { SIGNATURE_BOX } from "@/lib/constants";
 import { productsApi } from "@/api/apiClient";
@@ -136,11 +136,11 @@ export default function ChooseYourHadiya() {
           </div>
           <h2 className="font-display text-3xl lg:text-4xl text-[#F9F7F2] tracking-tight">Build Your Own Hadiya Box</h2>
           <p className="text-[14px] text-[#F9F7F2]/60 mt-2">
-            Select specific products from each category below. Click any item to see details & image. Prices update live!
+            Select items from categories below. Tap any product image to see details. Prices calculate automatically!
           </p>
         </div>
 
-        {/* 2-COLUMN LAYOUT (Products Grid + Price Calculator) */}
+        {/* 3-COLUMN SIDE-BY-SIDE LAYOUT */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -149,8 +149,24 @@ export default function ChooseYourHadiya() {
           className="grid lg:grid-cols-12 gap-5 items-stretch"
         >
 
-          {/* COLUMN 1: Category Scroll & Products Grid (8 cols) */}
-          <div className="lg:col-span-8 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col overflow-hidden">
+          {/* COLUMN 1: Signature Packaging Image Card (3 cols) */}
+          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 overflow-hidden flex flex-col justify-between shadow-lg">
+            <div className="relative w-full h-[260px] lg:h-[320px] bg-[#121620] overflow-hidden">
+              <img
+                src={PACKAGING_IMG}
+                alt="Hadiya House Signature Box & Bag"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#181E2C] via-transparent to-transparent" />
+            </div>
+            <div className="p-4 text-center border-t border-[#D4C3A5]/20 bg-[#181E2C]">
+              <h3 className="font-display text-base text-[#D4C3A5]">Signature Box & Bag</h3>
+              <p className="text-[11px] text-[#F9F7F2]/60 mt-0.5">Gold-foil luxury black presentation</p>
+            </div>
+          </div>
+
+          {/* COLUMN 2: Category Scroll & Products Grid (6 cols) */}
+          <div className="lg:col-span-6 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col overflow-hidden">
             
             {/* Category Scroll Header */}
             <div className="px-4 pt-4 pb-3 border-b border-[#D4C3A5]/20 flex items-center gap-3">
@@ -182,8 +198,8 @@ export default function ChooseYourHadiya() {
             </div>
 
             {/* Products Grid (scrollable) */}
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar" style={{ maxHeight: "480px" }}>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar" style={{ maxHeight: "440px" }}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {filteredItems.map((item) => {
                   const qty = selectedItems[item.name] || 0;
                   const isSelected = qty > 0;
@@ -270,38 +286,35 @@ export default function ChooseYourHadiya() {
 
           </div>
 
-          {/* COLUMN 2: Live Price Calculator & Selection Breakdown (4 cols) */}
-          <div className="lg:col-span-4 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col p-4 space-y-4">
+          {/* COLUMN 3: Compact Live Price Calculator (3 cols) */}
+          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col p-4 justify-between space-y-4">
             
-            <div className="pb-3 border-b border-[#D4C3A5]/20">
+            <div className="pb-2 border-b border-[#D4C3A5]/20">
               <p className="text-[10px] tracking-[0.18em] font-bold text-[#D4C3A5] uppercase">Price Calculator</p>
               <p className="text-[11px] text-[#F9F7F2]/50 mt-0.5">
-                {totalCount === 0 ? "Select items to build your box" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
+                {totalCount === 0 ? "Select items from product grid" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
               </p>
             </div>
 
-            {/* Selected Items List */}
-            <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar" style={{ maxHeight: "300px" }}>
+            {/* Selected Items List (Compact) */}
+            <div className="flex-1 overflow-y-auto space-y-1.5 custom-scrollbar" style={{ maxHeight: "240px" }}>
               {totalCount === 0 ? (
-                <div className="h-full min-h-[100px] flex items-center justify-center text-[12px] text-[#F9F7F2]/30 italic text-center">
-                  ← Choose items from the product grid
+                <div className="h-full min-h-[80px] flex items-center justify-center text-[11px] text-[#F9F7F2]/30 italic text-center">
+                  Select products to add to your custom box
                 </div>
               ) : (
                 Object.entries(selectedItems).map(([name, qty]) => {
                   const item = allAvailableItems.find((i) => i.name === name);
                   const lineTotal = item ? item.price * qty : 0;
                   return (
-                    <div key={name} className="flex items-center justify-between bg-[#121620] border border-[#D4C3A5]/20 rounded-lg p-2.5">
-                      <div className="flex items-center gap-2 min-w-0">
+                    <div key={name} className="flex items-center justify-between bg-[#121620] border border-[#D4C3A5]/20 rounded-lg p-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
                         <span className="bg-[#D4C3A5] text-[#121620] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">{qty}</span>
-                        <div className="min-w-0">
-                          <p className="text-[12px] text-[#F9F7F2] truncate font-medium">{name}</p>
-                          <p className="text-[9px] text-[#D4C3A5]/60">{item?.category}</p>
-                        </div>
+                        <p className="text-[11px] text-[#F9F7F2] truncate font-medium">{name}</p>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0 ml-1">
-                        <span className="text-[11px] text-[#D4C3A5] font-bold">₹{lineTotal}</span>
-                        <button onClick={() => removeItem(name)} className="text-[#F9F7F2]/40 hover:text-[#C5564A] text-[10px]">✕</button>
+                      <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
+                        <span className="text-[10.5px] text-[#D4C3A5] font-bold">₹{lineTotal}</span>
+                        <button onClick={() => removeItem(name)} className="text-[#F9F7F2]/40 hover:text-[#C5564A] text-[9px]">✕</button>
                       </div>
                     </div>
                   );
@@ -310,7 +323,7 @@ export default function ChooseYourHadiya() {
             </div>
 
             {/* Total & Order Button */}
-            <div className="border-t border-[#D4C3A5]/20 pt-4 space-y-3 mt-auto">
+            <div className="border-t border-[#D4C3A5]/20 pt-3 space-y-3 mt-auto">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[9px] tracking-[0.15em] text-[#D4C3A5] font-semibold uppercase">Total Box Price</p>
@@ -318,16 +331,16 @@ export default function ChooseYourHadiya() {
                     ₹{totalPrice.toLocaleString("en-IN")}
                   </p>
                 </div>
-                <span className={`text-[9px] font-bold px-2.5 py-1 rounded-full ${canOrder ? "bg-[#D4C3A5] text-[#121620]" : "bg-[#D4C3A5]/15 text-[#D4C3A5]"}`}>
+                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${canOrder ? "bg-[#D4C3A5] text-[#121620]" : "bg-[#D4C3A5]/15 text-[#D4C3A5]"}`}>
                   {totalCount} ITEMS
                 </span>
               </div>
               <button
                 onClick={() => canOrder && setShowOrder(true)}
                 disabled={!canOrder}
-                className="w-full flex items-center justify-center gap-2 bg-[#D4C3A5] text-[#121620] text-[12px] tracking-[0.15em] font-bold py-3.5 rounded-full hover:bg-[#e2d3b7] transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-lg"
+                className="w-full flex items-center justify-center gap-2 bg-[#D4C3A5] text-[#121620] text-[11.5px] tracking-[0.15em] font-bold py-3 rounded-full hover:bg-[#e2d3b7] transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-lg"
               >
-                {canOrder ? "ORDER NOW" : "SELECT ITEMS"} <ArrowRight size={14} strokeWidth={2.5} />
+                {canOrder ? "ORDER NOW" : "SELECT ITEMS"} <ArrowRight size={13} strokeWidth={2.5} />
               </button>
             </div>
 
