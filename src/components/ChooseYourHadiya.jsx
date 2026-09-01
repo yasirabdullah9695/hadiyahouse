@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Check, Plus, Minus, ArrowRight, Sparkles, ShoppingBag, Tag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Plus, Minus, ArrowRight, Sparkles, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { SIGNATURE_BOX } from "@/lib/constants";
 import { productsApi } from "@/api/apiClient";
 import OrderModal from "@/components/OrderModal";
 import { Image } from "@/components/ui/image";
-
 import { getSignatureBoxItems } from "@/components/admin/AdminSignatureItems";
 
 const PREMIUM_EASE = [0.22, 1, 0.36, 1];
@@ -44,23 +43,34 @@ export default function ChooseYourHadiya() {
     const individualDbItems = dbProducts.filter(
       (p) => p.type === "Individual Item" || p.type === "Signature Box Item" || p.category === "Signature Box Items"
     );
-    if (individualDbItems.length > 0) {
-      return individualDbItems.map((p) => ({
-        id: p.id || p._id || p.name,
-        name: p.name,
-        price: p.price || 0,
-        category: p.category || "General",
-        image: p.image || "",
-      }));
-    }
-    // Dedicated signature box items set by Admin
-    return signatureItems.map((i, index) => ({
-      id: `signature-${index}`,
-      name: i.name,
-      price: i.price,
-      category: "Signature Items",
-      image: "",
-    }));
+
+    const mergedMap = new Map();
+
+    // First add dedicated signature items from admin manager
+    signatureItems.forEach((i, idx) => {
+      mergedMap.set(i.name, {
+        id: `sig-${idx}`,
+        name: i.name,
+        price: i.price || 0,
+        category: i.category || "General",
+        image: i.image || "",
+      });
+    });
+
+    // Then add any db products
+    individualDbItems.forEach((p) => {
+      if (!mergedMap.has(p.name)) {
+        mergedMap.set(p.name, {
+          id: p.id || p._id || p.name,
+          name: p.name,
+          price: p.price || 0,
+          category: p.category || "General",
+          image: p.image || "",
+        });
+      }
+    });
+
+    return Array.from(mergedMap.values());
   }, [dbProducts, signatureItems]);
 
   const categories = useMemo(() => {
@@ -83,7 +93,11 @@ export default function ChooseYourHadiya() {
   const addItem = (name) => setSelectedItems((prev) => ({ ...prev, [name]: (prev[name] || 0) + 1 }));
   const removeItem = (name) =>
     setSelectedItems((prev) => {
-      if ((prev[name] || 0) <= 1) { const c = { ...prev }; delete c[name]; return c; }
+      if ((prev[name] || 0) <= 1) {
+        const c = { ...prev };
+        delete c[name];
+        return c;
+      }
       return { ...prev, [name]: prev[name] - 1 };
     });
 
@@ -98,7 +112,13 @@ export default function ChooseYourHadiya() {
     .join(", ");
 
   const presetNotes = `Custom Hadiya Box (${totalCount} items): ${formattedSelections}. (Total: ₹${totalPrice})`;
-  const virtualProduct = { name: SIGNATURE_BOX.name, price: totalPrice, type: "Gift Box", category: "Signature Box", image: PACKAGING_IMG };
+  const virtualProduct = {
+    name: SIGNATURE_BOX.name,
+    price: totalPrice,
+    type: "Gift Box",
+    category: "Signature Box",
+    image: PACKAGING_IMG,
+  };
 
   const scrollCats = (dir) => {
     const el = document.getElementById("cat-scroll");
@@ -109,19 +129,18 @@ export default function ChooseYourHadiya() {
     <section className="bg-[#121620] py-16 lg:py-24 border-y border-[#D4C3A5]/25 text-[#F9F7F2] relative">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-10 space-y-10">
 
-        {/* Title */}
+        {/* Section Title */}
         <div className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold text-[#D4C3A5] bg-[#D4C3A5]/10 border border-[#D4C3A5]/20 px-3.5 py-1.5 rounded-full mb-3">
+          <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold text-[#D4C3A5] bg-[#D4C3A5]/10 border border-[#D4C3A5]/20 px-3.5 py-1.5 rounded-full mb-3 uppercase">
             <Sparkles size={13} strokeWidth={1.5} /> LUXURY CUSTOM GIFT BOX BUILDER
           </div>
           <h2 className="font-display text-3xl lg:text-4xl text-[#F9F7F2] tracking-tight">Build Your Own Hadiya Box</h2>
-          <p className="text-[14px] text-[#F9F7F2]/60 mt-2">Admin se naye items add hone par yahan automatically dikhte hain</p>
+          <p className="text-[14px] text-[#F9F7F2]/60 mt-2">
+            Select specific products from each category below. Prices update live automatically!
+          </p>
         </div>
 
-        {/* ======================================================= */}
-        {/* 3-COLUMN SIDE-BY-SIDE LAYOUT                            */}
-        {/* COL 1: Image | COL 2: Items Grid | COL 3: Calculator     */}
-        {/* ======================================================= */}
+        {/* 3-COLUMN SIDE-BY-SIDE LAYOUT */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -130,7 +149,7 @@ export default function ChooseYourHadiya() {
           className="grid lg:grid-cols-12 gap-5 items-stretch"
         >
 
-          {/* ─── COLUMN 1 (3 cols): Packaging Image ─── */}
+          {/* COLUMN 1: Packaging Showcase (3 cols) */}
           <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 overflow-hidden flex flex-col">
             <div className="relative flex-1 min-h-[220px]">
               <Image
@@ -151,7 +170,7 @@ export default function ChooseYourHadiya() {
             </div>
           </div>
 
-          {/* ─── COLUMN 2 (6 cols): Category Scroll + Items Grid ─── */}
+          {/* COLUMN 2: Category Scroll & Particular Products Grid (6 cols) */}
           <div className="lg:col-span-6 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col overflow-hidden">
             
             {/* Category Scroll Header */}
@@ -170,11 +189,11 @@ export default function ChooseYourHadiya() {
                     onClick={() => setActiveCategory(cat)}
                     className={`text-[11px] font-semibold px-4 py-1.5 rounded-full whitespace-nowrap transition-all duration-200 ${
                       activeCategory === cat
-                        ? "bg-[#D4C3A5] text-[#121620] font-bold"
+                        ? "bg-[#D4C3A5] text-[#121620] font-bold shadow-md"
                         : "bg-[#121620] border border-[#D4C3A5]/25 text-[#F9F7F2]/70 hover:border-[#D4C3A5]/60"
                     }`}
                   >
-                    {cat === "All" ? "✨ All" : cat}
+                    {cat === "All" ? "✨ All Particular Items" : cat}
                   </button>
                 ))}
               </div>
@@ -183,8 +202,8 @@ export default function ChooseYourHadiya() {
               </button>
             </div>
 
-            {/* Items Grid (scrollable) */}
-            <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: "420px" }}>
+            {/* Particular Products Grid (scrollable) */}
+            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar" style={{ maxHeight: "440px" }}>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {filteredItems.map((item) => {
                   const qty = selectedItems[item.name] || 0;
@@ -198,15 +217,20 @@ export default function ChooseYourHadiya() {
                           : "bg-[#121620] border-[#D4C3A5]/20 hover:border-[#D4C3A5]/45"
                       }`}
                     >
-                      {/* Item image if available */}
-                      {item.image && (
+                      {/* Product image if available */}
+                      {item.image ? (
                         <div className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 bg-[#181E2C]">
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                         </div>
+                      ) : (
+                        <div className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 bg-[#181E2C]/60 flex items-center justify-center text-[10px] text-[#D4C3A5]/40 italic">
+                          Hadiya Spec
+                        </div>
                       )}
+
                       <div>
                         <div className="flex items-start justify-between gap-1 mb-1">
-                          <span className={`text-[13px] font-medium leading-tight ${isSelected ? "text-[#D4C3A5]" : "text-[#F9F7F2]"}`}>
+                          <span className={`text-[12px] font-medium leading-tight ${isSelected ? "text-[#D4C3A5]" : "text-[#F9F7F2]"}`}>
                             {item.name}
                           </span>
                           {isSelected && (
@@ -215,7 +239,12 @@ export default function ChooseYourHadiya() {
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-[#D4C3A5]/80 font-semibold">₹{item.price}</p>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="text-[10px] text-[#D4C3A5]/70 font-medium truncate max-w-[90px]">
+                            {item.category}
+                          </span>
+                          <span className="text-[12px] text-[#D4C3A5] font-bold">₹{item.price}</span>
+                        </div>
                       </div>
 
                       <div className="mt-2 pt-2 border-t border-[#D4C3A5]/15">
@@ -246,35 +275,37 @@ export default function ChooseYourHadiya() {
 
           </div>
 
-          {/* ─── COLUMN 3 (3 cols): Live Price Calculator ─── */}
+          {/* COLUMN 3: Live Price Calculator & Particular Selection Breakdown (3 cols) */}
           <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col p-4 space-y-4">
             
-            {/* Header */}
             <div className="pb-3 border-b border-[#D4C3A5]/20">
               <p className="text-[10px] tracking-[0.18em] font-bold text-[#D4C3A5] uppercase">Price Calculator</p>
               <p className="text-[11px] text-[#F9F7F2]/50 mt-0.5">
-                {totalCount === 0 ? "Select items from list" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
+                {totalCount === 0 ? "Select items from middle column" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
               </p>
             </div>
 
-            {/* Selected Items List */}
-            <div className="flex-1 overflow-y-auto space-y-2" style={{ maxHeight: "240px" }}>
+            {/* Selected Particular Items List */}
+            <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar" style={{ maxHeight: "260px" }}>
               {totalCount === 0 ? (
-                <div className="h-full min-h-[80px] flex items-center justify-center text-[12px] text-[#F9F7F2]/30 italic text-center">
-                  ← Choose items from middle column
+                <div className="h-full min-h-[100px] flex items-center justify-center text-[12px] text-[#F9F7F2]/30 italic text-center">
+                  ← Choose specific items from category lists
                 </div>
               ) : (
                 Object.entries(selectedItems).map(([name, qty]) => {
                   const item = allAvailableItems.find((i) => i.name === name);
                   const lineTotal = item ? item.price * qty : 0;
                   return (
-                    <div key={name} className="flex items-center justify-between bg-[#121620] border border-[#D4C3A5]/20 rounded-lg px-3 py-2">
+                    <div key={name} className="flex items-center justify-between bg-[#121620] border border-[#D4C3A5]/20 rounded-lg p-2.5">
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="bg-[#D4C3A5] text-[#121620] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">{qty}</span>
-                        <span className="text-[12px] text-[#F9F7F2] truncate">{name}</span>
+                        <div className="min-w-0">
+                          <p className="text-[12px] text-[#F9F7F2] truncate font-medium">{name}</p>
+                          <p className="text-[9px] text-[#D4C3A5]/60">{item?.category}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-[11px] text-[#D4C3A5] font-semibold">₹{lineTotal}</span>
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-1">
+                        <span className="text-[11px] text-[#D4C3A5] font-bold">₹{lineTotal}</span>
                         <button onClick={() => removeItem(name)} className="text-[#F9F7F2]/40 hover:text-[#C5564A] text-[10px]">✕</button>
                       </div>
                     </div>
@@ -287,7 +318,7 @@ export default function ChooseYourHadiya() {
             <div className="border-t border-[#D4C3A5]/20 pt-4 space-y-3 mt-auto">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-[9px] tracking-[0.15em] text-[#D4C3A5] font-semibold uppercase">Total Price</p>
+                  <p className="text-[9px] tracking-[0.15em] text-[#D4C3A5] font-semibold uppercase">Total Box Price</p>
                   <p className="font-heading text-2xl font-bold text-[#D4C3A5] leading-none mt-0.5">
                     ₹{totalPrice.toLocaleString("en-IN")}
                   </p>
