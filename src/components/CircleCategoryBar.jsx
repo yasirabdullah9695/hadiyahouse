@@ -36,7 +36,7 @@ const CIRCLE_CATEGORIES = [
     name: "Nikah",
     label: "Nikah Hampers",
     to: "/shop?category=Nikah",
-    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/6a8a98432ec51b3deb4874f3/f976def70_generated_6a9962be.png",
+    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/f976def70_generated_6a9962be.png",
   },
   {
     name: "Hajj & Umrah",
