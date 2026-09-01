@@ -53,9 +53,18 @@ export default function AdminProductForm({ product, onClose, onSaved }) {
     setUploading(true);
     try {
       const result = await uploadApi.uploadImage(file);
-      setForm((f) => ({ ...f, image: result.file_url }));
+      if (result && (result.file_url || result.url)) {
+        setForm((f) => ({ ...f, image: result.file_url || result.url }));
+      } else {
+        throw new Error("No image URL returned from server");
+      }
     } catch (err) {
-      alert("Upload failed. Please try again. " + (err.message || ""));
+      console.warn("Backend upload failed, converting image to local data URL fallback...", err);
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        setForm((f) => ({ ...f, image: evt.target.result }));
+      };
+      reader.readAsDataURL(file);
     } finally {
       setUploading(false);
     }
