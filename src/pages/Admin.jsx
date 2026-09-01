@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Lock, Package, ClipboardList, Box, Plus, LogOut, Home, Loader2 } from "lucide-react";
+import { Lock, Package, ClipboardList, Box, Plus, LogOut, Home, Loader2, CircleDot } from "lucide-react";
 import { productsApi, authApi, tokenManager } from "@/api/apiClient";
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from "@/lib/constants";
 import AdminProductForm from "@/components/admin/AdminProductForm";
 import AdminProductTable from "@/components/admin/AdminProductTable";
 import AdminOrders from "@/components/admin/AdminOrders";
 import AdminSignatureItems from "@/components/admin/AdminSignatureItems";
+import AdminCircleCategories from "@/components/admin/AdminCircleCategories";
 
 const SESSION_KEY = "zade_admin_session";
 
@@ -185,6 +186,12 @@ export default function Admin() {
           >
             <ClipboardList size={15} /> ORDER REQUESTS
           </button>
+          <button
+            onClick={() => setTab("circle_categories")}
+            className={`flex items-center gap-2 text-[11px] tracking-[0.15em] font-semibold px-5 py-3 border-b-2 transition-colors ${tab === "circle_categories" ? "border-[#1A1F2C] text-[#1A1F2C]" : "border-transparent text-[#1A1F2C]/50"}`}
+          >
+            <CircleDot size={15} /> CIRCLE CATEGORIES
+          </button>
         </div>
 
         {tab === "products" && (
@@ -225,6 +232,8 @@ export default function Admin() {
             <AdminOrders />
           </div>
         )}
+
+        {tab === "circle_categories" && <AdminCircleCategories />}
       </div>
 
       {showForm && (
