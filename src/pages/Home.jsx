@@ -14,6 +14,8 @@ import { CATEGORIES } from "@/lib/constants";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/MotionWrapper";
 
+import CircleCategoryBar from "@/components/CircleCategoryBar";
+
 const HERO_IMG = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
 const CAT_IMAGES = {
   Nikah: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/f976def70_generated_6a9962be.png",
@@ -111,6 +113,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#F9F7F2]">
       <Navbar />
+      <CircleCategoryBar />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#F9F7F2]">
