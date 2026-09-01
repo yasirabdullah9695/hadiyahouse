@@ -1,17 +1,16 @@
 import React from "react";
-import { Gem, Gift, ShieldCheck, Truck, MessageCircle } from "lucide-react";
+import { Gem, Gift, MessageCircle } from "lucide-react";
 
 const FEATURES = [
   { icon: Gem, title: "100% AUTHENTIC QUALITY", subtitle: "Curated with devotion" },
   { icon: Gift, title: "FREE SIGNATURE PACKAGING", subtitle: "Gold-foil luxury box & bag" },
-  { icon: Truck, title: "EXPRESS PAN-INDIA SHIPPING", subtitle: "Safe & tracked delivery" },
   { icon: MessageCircle, title: "WHATSAPP CUSTOMISATION", subtitle: "Direct personal support" },
 ];
 
 export default function FeatureBar() {
   return (
     <section className="bg-[#121620] py-10 lg:py-12 border-t border-[#D4C3A5]/20 text-[#F9F7F2]">
-      <div className="max-w-7xl mx-auto px-5 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="max-w-7xl mx-auto px-5 lg:px-10 grid grid-cols-3 gap-6">
         {FEATURES.map((f) => (
           <div
             key={f.title}

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Check, Plus, Minus, ArrowRight, Sparkles, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Plus, Minus, ArrowRight, Sparkles, ShoppingBag, ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import { motion } from "framer-motion";
 import { SIGNATURE_BOX } from "@/lib/constants";
 import { productsApi } from "@/api/apiClient";
 import OrderModal from "@/components/OrderModal";
-import { Image } from "@/components/ui/image";
 import { getSignatureBoxItems } from "@/components/admin/AdminSignatureItems";
 
 const PREMIUM_EASE = [0.22, 1, 0.36, 1];
@@ -16,6 +15,7 @@ export default function ChooseYourHadiya() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedItems, setSelectedItems] = useState({});
   const [showOrder, setShowOrder] = useState(false);
+  const [previewItem, setPreviewItem] = useState(null);
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -46,7 +46,6 @@ export default function ChooseYourHadiya() {
 
     const mergedMap = new Map();
 
-    // First add dedicated signature items from admin manager
     signatureItems.forEach((i, idx) => {
       mergedMap.set(i.name, {
         id: `sig-${idx}`,
@@ -54,10 +53,10 @@ export default function ChooseYourHadiya() {
         price: i.price || 0,
         category: i.category || "General",
         image: i.image || "",
+        description: i.description || "",
       });
     });
 
-    // Then add any db products
     individualDbItems.forEach((p) => {
       if (!mergedMap.has(p.name)) {
         mergedMap.set(p.name, {
@@ -66,6 +65,7 @@ export default function ChooseYourHadiya() {
           price: p.price || 0,
           category: p.category || "General",
           image: p.image || "",
+          description: p.description || "",
         });
       }
     });
@@ -136,11 +136,11 @@ export default function ChooseYourHadiya() {
           </div>
           <h2 className="font-display text-3xl lg:text-4xl text-[#F9F7F2] tracking-tight">Build Your Own Hadiya Box</h2>
           <p className="text-[14px] text-[#F9F7F2]/60 mt-2">
-            Select specific products from each category below. Prices update live automatically!
+            Select specific products from each category below. Click any item to see details & image. Prices update live!
           </p>
         </div>
 
-        {/* 3-COLUMN SIDE-BY-SIDE LAYOUT */}
+        {/* 2-COLUMN LAYOUT (Products Grid + Price Calculator) */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -149,29 +149,8 @@ export default function ChooseYourHadiya() {
           className="grid lg:grid-cols-12 gap-5 items-stretch"
         >
 
-          {/* COLUMN 1: Packaging Showcase (3 cols) */}
-          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 overflow-hidden flex flex-col">
-            <div className="relative flex-1 min-h-[220px]">
-              <Image
-                src={PACKAGING_IMG}
-                alt="Hadiya House Signature Packaging"
-                className="w-full h-full object-cover"
-                fittingType="fill"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#181E2C] via-transparent to-transparent" />
-              <div className="absolute top-3 left-3 bg-[#121620]/90 backdrop-blur text-[#D4C3A5] border border-[#D4C3A5]/40 px-2.5 py-1 rounded-full text-[9px] tracking-[0.15em] font-bold flex items-center gap-1">
-                <ShoppingBag size={10} /> FREE PACKAGING
-              </div>
-            </div>
-            <div className="p-4 text-center border-t border-[#D4C3A5]/20">
-              <p className="text-[12px] font-semibold text-[#D4C3A5]">Signature Box & Bag</p>
-              <p className="text-[11px] text-[#F9F7F2]/50 mt-0.5">Gold foil · Black luxury finish</p>
-              <span className="inline-block mt-2 text-[10px] font-bold bg-[#D4C3A5]/15 text-[#D4C3A5] border border-[#D4C3A5]/30 px-3 py-1 rounded-full">INCLUDED FREE</span>
-            </div>
-          </div>
-
-          {/* COLUMN 2: Category Scroll & Particular Products Grid (6 cols) */}
-          <div className="lg:col-span-6 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col overflow-hidden">
+          {/* COLUMN 1: Category Scroll & Products Grid (8 cols) */}
+          <div className="lg:col-span-8 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col overflow-hidden">
             
             {/* Category Scroll Header */}
             <div className="px-4 pt-4 pb-3 border-b border-[#D4C3A5]/20 flex items-center gap-3">
@@ -193,7 +172,7 @@ export default function ChooseYourHadiya() {
                         : "bg-[#121620] border border-[#D4C3A5]/25 text-[#F9F7F2]/70 hover:border-[#D4C3A5]/60"
                     }`}
                   >
-                    {cat === "All" ? "✨ All Particular Items" : cat}
+                    {cat === "All" ? "✨ All Items" : cat}
                   </button>
                 ))}
               </div>
@@ -202,9 +181,9 @@ export default function ChooseYourHadiya() {
               </button>
             </div>
 
-            {/* Particular Products Grid (scrollable) */}
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar" style={{ maxHeight: "440px" }}>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {/* Products Grid (scrollable) */}
+            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar" style={{ maxHeight: "480px" }}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {filteredItems.map((item) => {
                   const qty = selectedItems[item.name] || 0;
                   const isSelected = qty > 0;
@@ -217,20 +196,36 @@ export default function ChooseYourHadiya() {
                           : "bg-[#121620] border-[#D4C3A5]/20 hover:border-[#D4C3A5]/45"
                       }`}
                     >
-                      {/* Product image if available */}
-                      {item.image ? (
-                        <div className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 bg-[#181E2C]">
-                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                        </div>
-                      ) : (
-                        <div className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 bg-[#181E2C]/60 flex items-center justify-center text-[10px] text-[#D4C3A5]/40 italic">
-                          Hadiya Spec
-                        </div>
-                      )}
+                      {/* Product image — clickable for preview */}
+                      <div
+                        className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 bg-[#181E2C] cursor-pointer relative group/img"
+                        onClick={() => setPreviewItem(item)}
+                      >
+                        {item.image ? (
+                          <>
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500"
+                              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = "none"; }}
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                              <ZoomIn size={18} className="text-white opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" />
+                            </div>
+                          </>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[10px] text-[#D4C3A5]/40 italic">
+                            Tap to view
+                          </div>
+                        )}
+                      </div>
 
                       <div>
                         <div className="flex items-start justify-between gap-1 mb-1">
-                          <span className={`text-[12px] font-medium leading-tight ${isSelected ? "text-[#D4C3A5]" : "text-[#F9F7F2]"}`}>
+                          <span
+                            className={`text-[12px] font-medium leading-tight cursor-pointer hover:underline ${isSelected ? "text-[#D4C3A5]" : "text-[#F9F7F2]"}`}
+                            onClick={() => setPreviewItem(item)}
+                          >
                             {item.name}
                           </span>
                           {isSelected && (
@@ -275,21 +270,21 @@ export default function ChooseYourHadiya() {
 
           </div>
 
-          {/* COLUMN 3: Live Price Calculator & Particular Selection Breakdown (3 cols) */}
-          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col p-4 space-y-4">
+          {/* COLUMN 2: Live Price Calculator & Selection Breakdown (4 cols) */}
+          <div className="lg:col-span-4 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 flex flex-col p-4 space-y-4">
             
             <div className="pb-3 border-b border-[#D4C3A5]/20">
               <p className="text-[10px] tracking-[0.18em] font-bold text-[#D4C3A5] uppercase">Price Calculator</p>
               <p className="text-[11px] text-[#F9F7F2]/50 mt-0.5">
-                {totalCount === 0 ? "Select items from middle column" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
+                {totalCount === 0 ? "Select items to build your box" : `${totalCount} item${totalCount !== 1 ? "s" : ""} selected`}
               </p>
             </div>
 
-            {/* Selected Particular Items List */}
-            <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar" style={{ maxHeight: "260px" }}>
+            {/* Selected Items List */}
+            <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar" style={{ maxHeight: "300px" }}>
               {totalCount === 0 ? (
                 <div className="h-full min-h-[100px] flex items-center justify-center text-[12px] text-[#F9F7F2]/30 italic text-center">
-                  ← Choose specific items from category lists
+                  ← Choose items from the product grid
                 </div>
               ) : (
                 Object.entries(selectedItems).map(([name, qty]) => {
@@ -356,6 +351,55 @@ export default function ChooseYourHadiya() {
           {canOrder ? "ORDER NOW" : "SELECT ITEMS"} <ArrowRight size={13} strokeWidth={2.5} />
         </button>
       </div>
+
+      {/* ITEM DETAIL PREVIEW MODAL */}
+      {previewItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setPreviewItem(null)}>
+          <div
+            className="bg-[#181E2C] border border-[#D4C3A5]/40 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Image */}
+            {previewItem.image && (
+              <div className="aspect-square bg-[#121620] overflow-hidden">
+                <img
+                  src={previewItem.image}
+                  alt={previewItem.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = "none"; }}
+                />
+              </div>
+            )}
+
+            {/* Details */}
+            <div className="p-5 space-y-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[10px] tracking-[0.15em] font-bold text-[#D4C3A5]/70 uppercase">{previewItem.category}</p>
+                  <h3 className="font-display text-xl text-[#F9F7F2] mt-1">{previewItem.name}</h3>
+                </div>
+                <button onClick={() => setPreviewItem(null)} className="text-[#F9F7F2]/50 hover:text-[#F9F7F2] flex-shrink-0 mt-1">
+                  <X size={20} />
+                </button>
+              </div>
+
+              {previewItem.description && (
+                <p className="text-[13px] text-[#F9F7F2]/60 leading-relaxed">{previewItem.description}</p>
+              )}
+
+              <div className="flex items-center justify-between pt-3 border-t border-[#D4C3A5]/20">
+                <span className="font-heading text-2xl font-bold text-[#D4C3A5]">₹{previewItem.price}</span>
+                <button
+                  onClick={() => { addItem(previewItem.name); setPreviewItem(null); }}
+                  className="bg-[#D4C3A5] text-[#121620] text-[11px] tracking-[0.15em] font-bold px-5 py-2.5 rounded-full hover:bg-[#e2d3b7] transition-all flex items-center gap-1.5"
+                >
+                  <Plus size={13} strokeWidth={2.5} /> ADD TO BOX
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showOrder && (
         <OrderModal product={virtualProduct} presetNotes={presetNotes} onClose={() => setShowOrder(false)} />

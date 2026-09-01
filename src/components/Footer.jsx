@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Instagram, Facebook, Mail, MessageCircle, Phone } from "lucide-react";
-import { WHATSAPP_NUMBER, LOGO_ICON_URL } from "@/lib/constants";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -18,14 +18,9 @@ export default function Footer() {
           
           {/* Col 1: Brand & Socials */}
           <div className="col-span-2 md:col-span-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full overflow-hidden bg-white flex-shrink-0 border border-[#D4C3A5]/40">
-                <img src={LOGO_ICON_URL} alt="Hadiya House" className="w-full h-full object-cover" />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-display text-base tracking-[0.15em] text-[#D4C3A5] font-semibold">Hadiya House</span>
-                <span className="text-[7.5px] tracking-[0.25em] text-[#F9F7F2]/50 mt-0.5 uppercase">GIFTS FOR THE JOURNEY</span>
-              </div>
+            <div className="flex flex-col leading-none">
+              <span className="font-display text-base tracking-[0.15em] text-[#D4C3A5] font-semibold">Hadiya House</span>
+              <span className="text-[7.5px] tracking-[0.25em] text-[#F9F7F2]/50 mt-0.5 uppercase">GIFTS FOR THE JOURNEY</span>
             </div>
             <p className="text-[11px] leading-tight text-[#F9F7F2]/60">
               Thoughtfully curated Islamic gift boxes for every blessed occasion.
@@ -53,7 +48,6 @@ export default function Footer() {
           <div>
             <h4 className="text-[9px] tracking-[0.2em] font-bold text-[#D4C3A5] uppercase mb-1.5">HELP & SUPPORT</h4>
             <ul className="space-y-1 text-[11px] text-[#F9F7F2]/60 font-medium">
-              <li><a href="#" className="hover:text-[#D4C3A5] transition-colors">Shipping Policy</a></li>
               <li><a href="#" className="hover:text-[#D4C3A5] transition-colors">Returns & Refunds</a></li>
               <li><a href="#" className="hover:text-[#D4C3A5] transition-colors">FAQs</a></li>
               <li><a href="/admin" className="hover:text-[#D4C3A5] transition-colors font-semibold text-[#D4C3A5]/80">Admin Portal</a></li>
