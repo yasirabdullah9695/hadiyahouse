@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { FadeIn } from "@/components/MotionWrapper";
 
 import CircleCategoryBar from "@/components/CircleCategoryBar";
+import HeroCarousel from "@/components/HeroCarousel";
 
 const HERO_IMG = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
 const CAT_IMAGES = {
@@ -92,9 +93,7 @@ export default function Home() {
             </div>
           </div>
           <div className="order-1 lg:order-2 relative">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#F0EDE5]">
-              <Image src={HERO_IMG} alt="Dar-Ul-Hadaya premium gift box" className="w-full h-full" fittingType="fill" />
-            </div>
+            <HeroCarousel />
           </div>
         </motion.div>
       </section>

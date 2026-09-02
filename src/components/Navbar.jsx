@@ -23,13 +23,13 @@ export default function Navbar() {
         <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Logo (Positioned in Left Corner, Clear & Zoomed) */}
+            {/* Logo (Un-cropped, Crystal Clear) */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden bg-[#F9F7F2] flex-shrink-0 border-2 border-[#D4C3A5] shadow-lg group-hover:scale-105 transition-transform duration-300">
+              <div className="h-10 sm:h-12 flex-shrink-0 flex items-center">
                 <img
                   src={LOGO_ICON_URL}
                   alt="Dar-Ul-Hadaya"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="h-full w-auto max-w-[140px] sm:max-w-[160px] object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col">

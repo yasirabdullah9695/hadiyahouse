@@ -19,8 +19,8 @@ export default function Footer() {
           {/* Col 1: Brand & Socials */}
           <div className="col-span-2 md:col-span-1 space-y-2">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-full overflow-hidden bg-[#121620] flex-shrink-0 border border-[#D4C3A5]/40 shadow-sm">
-                <img src="/dar_ul_hadaya_logo.png" alt="Dar-Ul-Hadaya" className="w-full h-full object-cover" />
+              <div className="h-9 w-auto flex-shrink-0 flex items-center">
+                <img src="/dar_ul_hadaya_logo.png" alt="Dar-Ul-Hadaya" className="h-full w-auto max-w-[120px] object-contain" />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="font-display text-base tracking-[0.15em] text-[#D4C3A5] font-semibold">Dar-Ul-Hadaya</span>
