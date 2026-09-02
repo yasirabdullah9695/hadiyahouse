@@ -6,7 +6,7 @@ export default function WhatsAppFloat() {
   const [showTooltip, setShowTooltip] = useState(true);
 
   const customQueryMessage = encodeURIComponent(
-    "Hello Hadiya House! I have a query regarding Custom Gift Box / Calligraphy Name Framing."
+    "Hello Dar-Ul-Hadaya! I have a query regarding Custom Gift Box / Calligraphy Name Framing."
   );
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${customQueryMessage}`;
 

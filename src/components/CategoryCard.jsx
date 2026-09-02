@@ -25,7 +25,7 @@ export default function CategoryCard({ category, index = 0 }) {
               fittingType="fill"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">HADIYA HOUSE</div>
+            <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">DAR-UL-HADAYA</div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A1F2C]/85 via-[#1A1F2C]/25 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-6">

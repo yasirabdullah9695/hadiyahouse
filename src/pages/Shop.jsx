@@ -78,7 +78,7 @@ export default function Shop() {
       <section className="py-12 lg:py-16 border-b border-[#D4C3A5]/30 bg-[#1A1F2C] text-[#F9F7F2] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 lg:px-10 text-center relative z-10">
           <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] font-semibold text-[#D4C3A5] bg-[#D4C3A5]/10 border border-[#D4C3A5]/20 px-3.5 py-1.5 rounded-full mb-3 uppercase">
-            <Sparkles size={13} strokeWidth={1.5} /> HADIYA HOUSE LUXURY COLLECTION
+            <Sparkles size={13} strokeWidth={1.5} /> DAR-UL-HADAYA LUXURY COLLECTION
           </div>
           <h1 className="font-display text-3xl lg:text-5xl text-[#F9F7F2] tracking-tight">The Complete Collection</h1>
           <p className="text-[13px] sm:text-[14px] text-[#F9F7F2]/70 max-w-xl mx-auto mt-2">

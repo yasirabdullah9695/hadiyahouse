@@ -46,14 +46,14 @@ const sendOrderEmail = async (order) => {
   try {
     const transporter = createTransporter();
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || `"Hadiya House" <${process.env.SMTP_USER}>`,
+      from: process.env.EMAIL_FROM || `"Dar-Ul-Hadaya" <${process.env.SMTP_USER}>`,
       to: process.env.ORDER_NOTIFICATION_EMAIL || process.env.SMTP_USER,
       subject: `🛍️ New Order: ${order.product_name} — ${order.customer_name}`,
       text: buildOrderEmailBody(order),
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1A1F2C;">
           <div style="background: #1A1F2C; padding: 24px; text-align: center;">
-            <h1 style="color: #D4C3A5; margin: 0; font-size: 22px; letter-spacing: 3px;">HADIYA HOUSE</h1>
+            <h1 style="color: #D4C3A5; margin: 0; font-size: 22px; letter-spacing: 3px;">DAR-UL-HADAYA</h1>
             <p style="color: #F9F7F2; margin: 4px 0 0; font-size: 11px; letter-spacing: 2px;">NEW ORDER REQUEST</p>
           </div>
           <div style="padding: 24px; background: #F9F7F2;">
@@ -75,7 +75,7 @@ const sendOrderEmail = async (order) => {
             </table>
           </div>
           <div style="background: #F0EDE5; padding: 16px 24px; text-align: center;">
-            <p style="color: #666; font-size: 12px; margin: 0;">Hadiya House Admin Dashboard pe jaake status update karo</p>
+            <p style="color: #666; font-size: 12px; margin: 0;">Dar-Ul-Hadaya Admin Dashboard pe jaake status update karo</p>
           </div>
         </div>
       `,

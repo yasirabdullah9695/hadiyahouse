@@ -154,14 +154,14 @@ export default function ChooseYourHadiya() {
             <div className="relative w-full h-[260px] lg:h-[320px] bg-[#121620] overflow-hidden">
               <img
                 src={PACKAGING_IMG}
-                alt="Hadiya House Signature Box & Bag"
+                alt="Dar-Ul-Hadaya Signature Box & Bag"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#181E2C] via-transparent to-transparent" />
             </div>
             <div className="p-4 text-center border-t border-[#D4C3A5]/20 bg-[#181E2C]">
-              <h3 className="font-display text-base text-[#D4C3A5]">Signature Box & Bag</h3>
-              <p className="text-[11px] text-[#F9F7F2]/60 mt-0.5">Gold-foil luxury black presentation</p>
+              <h3 className="font-display text-base text-[#D4C3A5]">Dar-Ul-Hadaya Signature Box</h3>
+              <p className="text-[11px] text-[#F9F7F2]/60 mt-0.5">The Home of Meaningful Luxe.</p>
             </div>
           </div>
 

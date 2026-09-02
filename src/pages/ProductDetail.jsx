@@ -65,7 +65,7 @@ export default function ProductDetail() {
                   }}
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">HADIYA HOUSE</div>
+                <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">DAR-UL-HADAYA</div>
               )}
             </div>
             {product.badge && (

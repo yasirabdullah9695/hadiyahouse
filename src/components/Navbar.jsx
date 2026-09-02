@@ -28,16 +28,16 @@ export default function Navbar() {
               <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden bg-[#F9F7F2] flex-shrink-0 border-2 border-[#D4C3A5] shadow-lg group-hover:scale-105 transition-transform duration-300">
                 <img
                   src={LOGO_ICON_URL}
-                  alt="Hadiya House"
+                  alt="Dar-Ul-Hadaya"
                   className="w-full h-full object-cover scale-125 transition-transform duration-300"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-display text-xl sm:text-2xl tracking-[0.18em] leading-tight text-[#F9F7F2] font-semibold group-hover:text-[#D4C3A5] transition-colors">
-                  Hadiya House
+                <span className="font-display text-xl sm:text-2xl tracking-[0.15em] leading-tight text-[#F9F7F2] font-semibold group-hover:text-[#D4C3A5] transition-colors">
+                  Dar-Ul-Hadaya
                 </span>
-                <span className="text-[8px] tracking-[0.3em] text-[#D4C3A5]/80 leading-none mt-0.5 font-medium uppercase">
-                  Gifts for the Journey
+                <span className="text-[8px] tracking-[0.25em] text-[#D4C3A5]/80 leading-none mt-0.5 font-medium uppercase">
+                  The Home of Meaningful Luxe
                 </span>
               </div>
             </Link>

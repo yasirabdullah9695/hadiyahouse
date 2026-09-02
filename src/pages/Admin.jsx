@@ -92,7 +92,7 @@ export default function Admin() {
             <div className="w-14 h-14 rounded-full bg-[#1A1F2C] flex items-center justify-center mb-4 border border-[#D4C3A5]/40">
               <Lock size={22} className="text-[#D4C3A5]" strokeWidth={1.5} />
             </div>
-            <span className="font-display text-xl tracking-[0.2em] text-[#1A1F2C]">Hadiya House</span>
+            <span className="font-display text-xl tracking-[0.2em] text-[#1A1F2C]">Dar-Ul-Hadaya</span>
             <p className="text-[10px] tracking-[0.3em] text-[#1A1F2C]/50 mt-1 uppercase font-semibold">Admin Dashboard</p>
           </div>
           
@@ -151,7 +151,7 @@ export default function Admin() {
       <header className="bg-[#1A1F2C] text-[#F9F7F2] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-5 lg:px-10 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-display text-lg tracking-[0.2em] text-[#D4C3A5]">Hadiya House</span>
+            <span className="font-display text-lg tracking-[0.2em] text-[#D4C3A5]">Dar-Ul-Hadaya</span>
             <span className="text-[10px] tracking-[0.2em] text-[#F9F7F2]/50 hidden sm:inline">ADMIN</span>
           </div>
           <div className="flex items-center gap-3">
