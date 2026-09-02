@@ -113,19 +113,6 @@ export default function HeroCarousel() {
         <ChevronRight size={16} />
       </button>
 
-      {/* Dot Indicators */}
-      <div className="absolute top-3 right-4 z-20 flex items-center gap-1.5 bg-[#121620]/60 backdrop-blur px-2.5 py-1 rounded-full border border-[#D4C3A5]/20">
-        {HERO_SLIDES.map((s, i) => (
-          <button
-            key={s.id}
-            onClick={() => setIndex(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              index === i ? "w-5 bg-[#D4C3A5]" : "w-1.5 bg-white/40 hover:bg-white/70"
-            }`}
-            title={s.title}
-          />
-        ))}
-      </div>
     </div>
   );
 }
