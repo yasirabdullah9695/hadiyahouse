@@ -126,7 +126,7 @@ export default function ChooseYourHadiya() {
   };
 
   return (
-    <section className="bg-[#121620] py-16 lg:py-24 border-y border-[#D4C3A5]/25 text-[#F9F7F2] relative">
+    <section id="custom-box" className="bg-[#121620] py-16 lg:py-24 border-y border-[#D4C3A5]/25 text-[#F9F7F2] relative">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-10 space-y-10">
 
         {/* Section Title */}
