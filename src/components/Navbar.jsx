@@ -29,7 +29,7 @@ export default function Navbar() {
                 <img
                   src={LOGO_ICON_URL}
                   alt="Dar-Ul-Hadaya"
-                  className="w-full h-full object-cover scale-125 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <div className="flex flex-col">

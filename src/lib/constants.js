@@ -5,8 +5,8 @@ export const ADMIN_EMAIL = "yasirsabdullah02@gmail.com";
 export const ADMIN_PASSWORD = "yasir9695@";
 export const ORDER_NOTIFICATION_EMAIL = "yasirsabdullah02@gmail.com";
 
-export const LOGO_URL = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/c935dcda4_WhatsAppImage2026-08-24at110243AM.jpeg";
-export const LOGO_ICON_URL = "/signature_box_packaging.jpg";
+export const LOGO_URL = "/dar_ul_hadaya_logo.png";
+export const LOGO_ICON_URL = "/dar_ul_hadaya_logo.png";
 
 export const CATEGORIES = [
   { key: "Nikah", label: "Nikah", subtitle: "For Bride & Groom", accent: "#D4C3A5" },
