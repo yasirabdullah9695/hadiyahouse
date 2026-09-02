@@ -29,86 +29,29 @@ const CAT_IMAGES = {
   "Custom Calligraphy Frame": "/calligraphy_frame_sample.jpg",
 };
 
-const SAMPLE_GIFT_BOXES = [
-  {
-    id: "sample-nikah-1",
-    name: "Luxury Nikah Hamper",
-    price: 1999,
-    category: "Nikah",
-    type: "Gift Box",
-    badge: "Best Seller",
-    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/f976def70_generated_6a9962be.png",
-  },
-  {
-    id: "sample-hajj-1",
-    name: "Blessed Hajj Gift Set",
-    price: 2499,
-    category: "Hajj",
-    type: "Gift Box",
-    badge: "New Arrival",
-    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/e94d9482f_generated_image.png",
-  },
-  {
-    id: "sample-umrah-1",
-    name: "Umrah Mubarak Hamper",
-    price: 1799,
-    category: "Umrah",
-    type: "Gift Box",
-    badge: "Popular",
-    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/1c10b3a36_generated_4fcff911.png",
-  },
-  {
-    id: "sample-calligraphy-1",
-    name: "Custom Calligraphy Name Frame Box",
-    price: 1299,
-    category: "Custom Calligraphy Frame",
-    type: "Gift Box",
-    badge: "Customisable",
-    image: "/calligraphy_frame_sample.jpg",
-  },
-  {
-    id: "sample-hijab-1",
-    name: "Modesty Hijab Gift Box",
-    price: 1199,
-    category: "Hijab Kit",
-    type: "Gift Box",
-    badge: "Gift Choice",
-    image: "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/032ee1fa3_generated_image.png",
-  },
-];
-
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    productsApi.list("-createdAt", 200)
-      .then((data) => {
-        const visible = (data || []).filter((p) => !p.hidden);
-        setProducts(visible);
-      })
+    productsApi
+      .list("-createdAt", 200)
+      .then((data) => setProducts((data || []).filter((p) => !p.hidden)))
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));
   }, []);
 
-  const giftBoxes = products.filter((p) => (p.type || "Gift Box") === "Gift Box");
-  const individualItems = products.filter((p) => p.type === "Individual Item");
+  const individualItems = products.filter((p) => (p.type || "Gift Box") === "Individual Item");
 
-  const groupByCategory = (list) => {
+  const individualItemGroups = React.useMemo(() => {
     const groups = {};
-    list.forEach((p) => {
-      const cat = p.category || "Other";
+    individualItems.forEach((p) => {
+      const cat = p.category || "General";
       if (!groups[cat]) groups[cat] = [];
       groups[cat].push(p);
     });
     return Object.entries(groups);
-  };
-
-  // Gift boxes: show sample cards until admin adds real ones
-  const giftBoxList = giftBoxes.length > 0 ? giftBoxes : SAMPLE_GIFT_BOXES;
-  // Individual items: ONLY real items from admin — no fallback samples
-  const giftBoxGroups = groupByCategory(giftBoxList);
-  const individualItemGroups = groupByCategory(individualItems);
+  }, [individualItems]);
 
   return (
     <div className="min-h-screen bg-[#F9F7F2]">
@@ -136,7 +79,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-4 mt-8">
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 bg-[#1A1F2C] text-[#F9F7F2] text-[11px] tracking-[0.2em] font-semibold px-8 py-4 rounded-full hover:bg-[#2a3142] transition-colors"
+                className="inline-flex items-center gap-2 bg-[#1A1F2C] text-[#F9F7F2] text-[11px] tracking-[0.2em] font-semibold px-8 py-4 rounded-full hover:bg-[#2a3142] transition-colors shadow-lg shadow-[#1A1F2C]/10"
               >
                 EXPLORE COLLECTION <ArrowRight size={14} strokeWidth={2} />
               </Link>
@@ -150,16 +93,13 @@ export default function Home() {
           </div>
           <div className="order-1 lg:order-2 relative">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#F0EDE5]">
-              <Image src={HERO_IMG} alt="Hadiya House premium gift box" className="w-full h-full" fittingType="fill" />
+              <Image src={HERO_IMG} alt="Dar-Ul-Hadaya premium gift box" className="w-full h-full" fittingType="fill" />
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* Choose Your Hadiya signature box */}
-      <ChooseYourHadiya />
-
-      {/* Category cards */}
+      {/* Category cards (Hajj, Umrah, Nikah, etc.) - MOVED UP */}
       <section id="categories" className="py-16 lg:py-24 bg-[#F9F7F2]">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
           <FadeIn className="text-center mb-12">
@@ -176,6 +116,9 @@ export default function Home() {
 
       {/* Gift box showcase */}
       <GiftBoxShowcase />
+
+      {/* Choose Your Dar-Ul-Hadaya signature box builder - MOVED DOWN */}
+      <ChooseYourHadiya />
 
       {/* Individual Items by category */}
       <section className="py-16 lg:py-24 bg-[#F0EDE5]">
