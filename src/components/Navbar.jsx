@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Search, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, Heart, Menu, X } from "lucide-react";
 import { LOGO_ICON_URL } from "@/lib/constants";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import SearchModal from "@/components/SearchModal";
+import WishlistDrawer, { getWishlist } from "@/components/WishlistDrawer";
 
 const NAV_LINKS = [
   { label: "HOME", to: "/" },
@@ -15,6 +17,19 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
+  const [wishlistCount, setWishlistCount] = useState(() => getWishlist().length);
+
+  useEffect(() => {
+    const handleWishlistChange = () => setWishlistCount(getWishlist().length);
+    window.addEventListener("wishlist-updated", handleWishlistChange);
+    window.addEventListener("storage", handleWishlistChange);
+    return () => {
+      window.removeEventListener("wishlist-updated", handleWishlistChange);
+      window.removeEventListener("storage", handleWishlistChange);
+    };
+  }, []);
 
   return (
     <>
@@ -42,8 +57,8 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/* Desktop Nav Links */}
+            <nav className="hidden lg:flex items-center gap-7">
               {NAV_LINKS.map((l) => (
                 <Link
                   key={l.label}
@@ -53,22 +68,54 @@ export default function Navbar() {
                   {l.label}
                 </Link>
               ))}
+            </nav>
+
+            {/* Action Buttons: Search, Wishlist, Order Now */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              {/* Search Icon */}
+              <button
+                onClick={() => setShowSearch(true)}
+                className="text-[#F9F7F2]/80 hover:text-[#D4C3A5] p-2 transition-colors flex items-center gap-1.5 text-[11px] font-semibold tracking-wider"
+                aria-label="Search Store"
+                title="Search Products"
+              >
+                <Search size={18} strokeWidth={1.8} />
+                <span className="hidden sm:inline text-[11px] tracking-[0.15em]">SEARCH</span>
+              </button>
+
+              {/* Wishlist Icon */}
+              <button
+                onClick={() => setShowWishlist(true)}
+                className="relative text-[#F9F7F2]/80 hover:text-[#D4C3A5] p-2 transition-colors"
+                aria-label="Wishlist"
+                title="Saved Wishlist"
+              >
+                <Heart size={19} strokeWidth={1.8} />
+                {wishlistCount > 0 && (
+                  <span className="absolute top-0 right-0 w-4 h-4 bg-[#C5564A] text-white text-[9px] font-bold rounded-full flex items-center justify-center border border-[#1A1F2C]">
+                    {wishlistCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Order Now Button */}
               <Link
                 to="/shop"
-                className="bg-[#D4C3A5] text-[#1A1F2C] text-[11px] tracking-[0.2em] font-bold px-5 py-2.5 rounded-full hover:bg-[#C5B395] transition-all shadow-md hover:scale-105"
+                className="hidden sm:inline-flex bg-[#D4C3A5] text-[#1A1F2C] text-[11px] tracking-[0.2em] font-bold px-5 py-2.5 rounded-full hover:bg-[#C5B395] transition-all shadow-md hover:scale-105"
               >
                 ORDER NOW
               </Link>
-            </nav>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setOpen(!open)}
-              className="lg:hidden text-[#F9F7F2] p-2 hover:text-[#D4C3A5]"
-              aria-label="Toggle menu"
-            >
-              {open ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setOpen(!open)}
+                className="lg:hidden text-[#F9F7F2] p-2 hover:text-[#D4C3A5]"
+                aria-label="Toggle menu"
+              >
+                {open ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+
           </div>
         </div>
 
@@ -97,6 +144,10 @@ export default function Navbar() {
           </div>
         )}
       </header>
+
+      {/* Modals */}
+      <SearchModal isOpen={showSearch} onClose={() => setShowSearch(false)} />
+      <WishlistDrawer isOpen={showWishlist} onClose={() => setShowWishlist(false)} />
     </>
   );
 }

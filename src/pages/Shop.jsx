@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SlidersHorizontal, X, Tag, Sparkles, ArrowRight } from "lucide-react";
+import { SlidersHorizontal, X, Tag, Sparkles, ArrowUpDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -13,6 +13,7 @@ export default function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState(initialCat);
+  const [sortBy, setSortBy] = useState("newest"); // newest, price_asc, price_desc
 
   useEffect(() => {
     productsApi
@@ -51,15 +52,22 @@ export default function Shop() {
     ];
   }, [categories]);
 
-  const filtered = useMemo(() => {
-    let list = products;
-    if (activeFilter === "All") return list;
-    if (activeFilter === "Best Seller") return list.filter((p) => p.best_seller || p.badge === "Best Seller");
-    if (activeFilter === "Gift Boxes") return list.filter((p) => (p.type || "Gift Box") === "Gift Box");
-    if (activeFilter === "Individual Items") return list.filter((p) => p.type === "Individual Item");
-    if (activeFilter === "Signature Box Items") return list.filter((p) => p.type === "Signature Box Item" || p.category === "Signature Box Items");
-    return list.filter((p) => p.category === activeFilter);
-  }, [products, activeFilter]);
+  const filteredAndSorted = useMemo(() => {
+    let list = [...products];
+    if (activeFilter === "Best Seller") list = list.filter((p) => p.best_seller || p.badge === "Best Seller");
+    else if (activeFilter === "Gift Boxes") list = list.filter((p) => (p.type || "Gift Box") === "Gift Box");
+    else if (activeFilter === "Individual Items") list = list.filter((p) => p.type === "Individual Item");
+    else if (activeFilter === "Signature Box Items") list = list.filter((p) => p.type === "Signature Box Item" || p.category === "Signature Box Items");
+    else if (activeFilter !== "All") list = list.filter((p) => p.category === activeFilter);
+
+    // Apply Sorting
+    if (sortBy === "price_asc") {
+      list.sort((a, b) => (a.price || 0) - (b.price || 0));
+    } else if (sortBy === "price_desc") {
+      list.sort((a, b) => (b.price || 0) - (a.price || 0));
+    }
+    return list;
+  }, [products, activeFilter, sortBy]);
 
   const handleSelectFilter = (filterId) => {
     setActiveFilter(filterId);
@@ -87,7 +95,7 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* HORIZONTAL QUICK FILTER PILLS BAR (Hadiyah Gifting Style) */}
+      {/* HORIZONTAL QUICK FILTER PILLS BAR */}
       <section className="sticky top-20 z-40 bg-[#F0EDE5]/95 backdrop-blur-md border-b border-[#D4C3A5]/30 py-3 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
@@ -118,23 +126,41 @@ export default function Shop() {
       <section className="py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
           
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#D4C3A5]/25">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-[#D4C3A5]/25">
             <div>
               <h2 className="font-display text-2xl text-[#1A1F2C]">
                 {activeFilter === "All" ? "All Products" : activeFilter}
               </h2>
               <p className="text-[12px] text-[#1A1F2C]/50 mt-0.5">
-                Showing {filtered.length} item{filtered.length !== 1 ? "s" : ""}
+                Showing {filteredAndSorted.length} item{filteredAndSorted.length !== 1 ? "s" : ""}
               </p>
             </div>
-            {activeFilter !== "All" && (
-              <button
-                onClick={() => handleSelectFilter("All")}
-                className="text-[11px] tracking-[0.15em] font-semibold text-[#4A5D4E] hover:underline flex items-center gap-1"
-              >
-                RESET FILTERS <X size={13} />
-              </button>
-            )}
+
+            <div className="flex items-center gap-4">
+              {/* Product Sorting Dropdown */}
+              <div className="flex items-center gap-2 bg-white border border-[#D4C3A5]/40 rounded-full px-3 py-1.5 shadow-sm">
+                <ArrowUpDown size={13} className="text-[#1A1F2C]/60" />
+                <span className="text-[10px] tracking-[0.12em] font-bold text-[#1A1F2C]/60 uppercase hidden sm:inline">SORT BY:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-transparent text-[11px] font-semibold text-[#1A1F2C] focus:outline-none cursor-pointer"
+                >
+                  <option value="newest">Newest Arrivals</option>
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                </select>
+              </div>
+
+              {activeFilter !== "All" && (
+                <button
+                  onClick={() => handleSelectFilter("All")}
+                  className="text-[11px] tracking-[0.15em] font-semibold text-[#4A5D4E] hover:underline flex items-center gap-1"
+                >
+                  RESET FILTERS <X size={13} />
+                </button>
+              )}
+            </div>
           </div>
 
           {loading ? (
@@ -143,7 +169,7 @@ export default function Shop() {
                 <div key={i} className="aspect-[4/5] rounded-xl bg-[#F0EDE5] animate-pulse" />
               ))}
             </div>
-          ) : filtered.length === 0 ? (
+          ) : filteredAndSorted.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-[#D4C3A5]/40">
               <p className="font-display text-2xl text-[#1A1F2C]/40 mb-2">No Products Found</p>
               <p className="text-[13px] text-[#1A1F2C]/50 mb-6">There are no items listed in "{activeFilter}" currently.</p>
@@ -156,7 +182,7 @@ export default function Shop() {
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
-              {filtered.map((p, i) => (
+              {filteredAndSorted.map((p, i) => (
                 <ProductCard key={p.id || p._id || i} product={p} index={i} />
               ))}
             </div>

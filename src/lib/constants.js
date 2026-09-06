@@ -5,8 +5,8 @@ export const ADMIN_EMAIL = "yasirsabdullah02@gmail.com";
 export const ADMIN_PASSWORD = "yasir9695@";
 export const ORDER_NOTIFICATION_EMAIL = "yasirsabdullah02@gmail.com";
 
-export const LOGO_URL = "/dar_ul_hadaya_logo.png";
-export const LOGO_ICON_URL = "/dar_ul_hadaya_logo.png";
+export const LOGO_URL = "/dar_ul_hadaya_logo_transparent.png";
+export const LOGO_ICON_URL = "/dar_ul_hadaya_logo_transparent.png";
 
 export const CATEGORIES = [
   { key: "Nikah", label: "Nikah", subtitle: "For Bride & Groom", accent: "#D4C3A5" },
@@ -77,7 +77,9 @@ export function buildWhatsAppMessage(order) {
   lines.push(`Name: ${order.customer_name}`);
   if (order.customer_email) lines.push(`Email: ${order.customer_email}`);
   lines.push(`Phone: ${order.phone}`);
+  if (order.pincode) lines.push(`Pincode: ${order.pincode}`);
   lines.push(`Address: ${order.address}`);
+  if (order.delivery_type) lines.push(`*Payment/Delivery Mode:* ${order.delivery_type}`);
   if (order.notes) lines.push(`Notes: ${order.notes}`);
   return lines.join("\n");
 }
@@ -98,7 +100,9 @@ export function buildOrderEmailBody(order) {
   lines.push(`  Name: ${order.customer_name}`);
   if (order.customer_email) lines.push(`  Email: ${order.customer_email}`);
   lines.push(`  Phone: ${order.phone}`);
+  if (order.pincode) lines.push(`  Pincode: ${order.pincode}`);
   lines.push(`  Address: ${order.address}`);
+  if (order.delivery_type) lines.push(`  Payment/Delivery Mode: ${order.delivery_type}`);
   if (order.notes) lines.push(`  Notes: ${order.notes}`);
   return lines.join("\n");
 }

@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, ShoppingBag } from "lucide-react";
 import OrderModal from "@/components/OrderModal";
+import { getWishlist, toggleWishlist } from "@/components/WishlistDrawer";
 
 const PREMIUM_EASE = [0.22, 1, 0.36, 1];
 const DEFAULT_FALLBACK = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
 
 export default function ProductCard({ product, index = 0 }) {
-  const [liked, setLiked] = useState(false);
+  const productId = product.id || product._id;
+  const [liked, setLiked] = useState(() =>
+    getWishlist().some((p) => (p.id || p._id) === productId)
+  );
   const [showOrder, setShowOrder] = useState(false);
+
+  useEffect(() => {
+    const handleWishlistChange = () => {
+      setLiked(getWishlist().some((p) => (p.id || p._id) === productId));
+    };
+    window.addEventListener("wishlist-updated", handleWishlistChange);
+    return () => window.removeEventListener("wishlist-updated", handleWishlistChange);
+  }, [productId]);
+
+  const handleToggleLike = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isNowLiked = toggleWishlist(product);
+    setLiked(isNowLiked);
+  };
 
   const badgeStyles = {
     "Best Seller": "bg-[#1A1F2C] text-[#D4C3A5] border border-[#D4C3A5]/40",
@@ -39,7 +58,7 @@ export default function ProductCard({ product, index = 0 }) {
 
         {/* Wishlist Heart */}
         <button
-          onClick={() => setLiked(!liked)}
+          onClick={handleToggleLike}
           className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center hover:bg-white transition-colors shadow-sm"
           aria-label="Add to wishlist"
         >
