@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Instagram, Facebook, Mail, MessageCircle, Phone } from "lucide-react";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { WHATSAPP_NUMBER, LOGO_URL } from "@/lib/constants";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -19,12 +19,12 @@ export default function Footer() {
           {/* Col 1: Brand & Socials */}
           <div className="col-span-2 md:col-span-1 space-y-2">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 w-auto flex-shrink-0 flex items-center">
-                <img src="/dar_ul_hadaya_logo_transparent.png" alt="Dar-Ul-Hadaya" className="h-full w-auto max-w-[120px] object-contain" />
+              <div className="h-10 w-auto flex-shrink-0 flex items-center">
+                <img src={LOGO_URL} alt="Auren" className="h-full w-auto max-w-[120px] object-contain" />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="font-display text-base tracking-[0.15em] text-[#D4C3A5] font-semibold">Dar-Ul-Hadaya</span>
-                <span className="text-[7.5px] tracking-[0.25em] text-[#F9F7F2]/50 mt-0.5 uppercase">THE HOME OF MEANINGFUL LUXE</span>
+                <span className="font-display text-base tracking-[0.2em] text-[#D4C3A5] font-semibold">Auren</span>
+                <span className="text-[7.5px] tracking-[0.25em] text-[#F9F7F2]/50 mt-0.5 uppercase">GIFTS WITH MEANING</span>
               </div>
             </div>
             <p className="text-[11px] leading-tight text-[#F9F7F2]/60">
@@ -34,7 +34,7 @@ export default function Footer() {
               <a href="#" className="text-[#F9F7F2]/70 hover:text-[#D4C3A5] transition-colors" aria-label="Instagram"><Instagram size={14} /></a>
               <a href="#" className="text-[#F9F7F2]/70 hover:text-[#D4C3A5] transition-colors" aria-label="Facebook"><Facebook size={14} /></a>
               <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="text-[#F9F7F2]/70 hover:text-[#D4C3A5] transition-colors" aria-label="WhatsApp"><MessageCircle size={14} /></a>
-              <a href="mailto:hello@darulhadaya.in" className="text-[#F9F7F2]/70 hover:text-[#D4C3A5] transition-colors" aria-label="Email"><Mail size={14} /></a>
+              <a href="mailto:hello@auren.in" className="text-[#F9F7F2]/70 hover:text-[#D4C3A5] transition-colors" aria-label="Email"><Mail size={14} /></a>
             </div>
           </div>
 
@@ -81,7 +81,7 @@ export default function Footer() {
             )}
             <div className="text-[11px] text-[#F9F7F2]/60 space-y-0.5 pt-0.5">
               <p className="flex items-center gap-1.5"><Phone size={11} className="text-[#D4C3A5]" /> +91 96693 97762</p>
-              <p className="flex items-center gap-1.5"><Mail size={11} className="text-[#D4C3A5]" /> hello@darulhadaya.in</p>
+              <p className="flex items-center gap-1.5"><Mail size={11} className="text-[#D4C3A5]" /> hello@auren.in</p>
             </div>
           </div>
 
@@ -94,11 +94,11 @@ export default function Footer() {
           <span
             onDoubleClick={() => (window.location.href = "/admin")}
             className="cursor-default select-none"
-            title="Dar-Ul-Hadaya"
+            title="Auren"
           >
             ©
           </span>{" "}
-          {new Date().getFullYear()} Dar-Ul-Hadaya — The Home of Meaningful Luxe. All rights reserved.
+          {new Date().getFullYear()} Auren — Gifts with Meaning. All rights reserved.
         </p>
       </div>
     </footer>

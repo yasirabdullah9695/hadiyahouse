@@ -1,12 +1,12 @@
-// Central configuration for Dar-Ul-Hadaya storefront
+// Central configuration for Auren storefront
 export const WHATSAPP_NUMBER = "919669397762"; // +91 9669397762
 
 export const ADMIN_EMAIL = "yasirsabdullah02@gmail.com";
 export const ADMIN_PASSWORD = "yasir9695@";
 export const ORDER_NOTIFICATION_EMAIL = "yasirsabdullah02@gmail.com";
 
-export const LOGO_URL = "/dar_ul_hadaya_logo_transparent.png";
-export const LOGO_ICON_URL = "/dar_ul_hadaya_logo_transparent.png";
+export const LOGO_URL = "/auren_logo_transparent.png";
+export const LOGO_ICON_URL = "/auren_logo_transparent.png";
 
 export const CATEGORIES = [
   { key: "Nikah", label: "Nikah", subtitle: "For Bride & Groom", accent: "#D4C3A5" },
@@ -23,7 +23,7 @@ export const CATEGORIES = [
 export const PRODUCT_TYPES = ["Gift Box", "Individual Item", "Signature Box Item"];
 
 export const SIGNATURE_BOX = {
-  name: "Choose Your Dar-Ul-Hadaya Box",
+  name: "Choose Your Auren Signature Box",
   basePrice: 0, // Free / Included Packaging Box & Bag
   items: [
     { name: "Attar", price: 299 },
@@ -64,7 +64,7 @@ export const ALL_CATEGORIES = [
 
 export function buildWhatsAppMessage(order) {
   const lines = [
-    "Hello Dar-Ul-Hadaya, I would like to place an order:",
+    "Hello Auren, I would like to place an order:",
     "",
     `*Product:* ${order.product_name}`,
   ];

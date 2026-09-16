@@ -38,21 +38,21 @@ export default function Navbar() {
         <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Logo (Un-cropped, Crystal Clear) */}
+            {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="h-10 sm:h-12 flex-shrink-0 flex items-center">
+              <div className="h-11 sm:h-13 flex-shrink-0 flex items-center">
                 <img
                   src={LOGO_ICON_URL}
-                  alt="Dar-Ul-Hadaya"
+                  alt="Auren"
                   className="h-full w-auto max-w-[140px] sm:max-w-[160px] object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-display text-xl sm:text-2xl tracking-[0.15em] leading-tight text-[#F9F7F2] font-semibold group-hover:text-[#D4C3A5] transition-colors">
-                  Dar-Ul-Hadaya
+                <span className="font-display text-xl sm:text-2xl tracking-[0.2em] leading-tight text-[#F9F7F2] font-semibold group-hover:text-[#D4C3A5] transition-colors">
+                  Auren
                 </span>
                 <span className="text-[8px] tracking-[0.25em] text-[#D4C3A5]/80 leading-none mt-0.5 font-medium uppercase">
-                  The Home of Meaningful Luxe
+                  Gifts with Meaning
                 </span>
               </div>
             </Link>

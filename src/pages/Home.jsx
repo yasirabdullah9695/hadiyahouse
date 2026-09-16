@@ -116,7 +116,7 @@ export default function Home() {
       {/* Gift box showcase */}
       <GiftBoxShowcase />
 
-      {/* Choose Your Dar-Ul-Hadaya signature box builder - MOVED DOWN */}
+      {/* Choose Your Auren signature box builder - MOVED DOWN */}
       <ChooseYourHadiya />
 
       {/* Individual Items by category */}
@@ -174,7 +174,7 @@ export default function Home() {
           <p className="text-[9px] tracking-[0.25em] font-semibold text-[#D4C3A5] mb-1.5 uppercase">OUR PHILOSOPHY</p>
           <h2 className="font-display text-2xl lg:text-3xl tracking-tight mb-2.5">Gifting as a Ritual of Devotion</h2>
           <p className="text-[13px] sm:text-[14px] leading-relaxed text-[#F9F7F2]/75 max-w-xl mx-auto">
-            At Dar-Ul-Hadaya, we believe every gift is an act of love and faith. Each hamper is thoughtfully assembled with premium,
+            At Auren, we believe every gift is an act of love and faith. Each hamper is thoughtfully assembled with premium,
             meaningful items — from hand-pressed Qurans to artisan attars — so your gift carries both beauty and blessing.
           </p>
         </FadeIn>

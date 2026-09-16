@@ -12,7 +12,7 @@ const HERO_SLIDES = [
   {
     id: "slide-2",
     image: "/signature_box_packaging.jpg",
-    title: "✨ BUILD YOUR OWN DAR-UL-HADAYA BOX",
+    title: "✨ BUILD YOUR OWN AUREN BOX",
     subtitle: "Select specific Attars, Tasbeeh, Mat & Frame · Live Price Calculator",
     isCustomBox: true,
     link: "#custom-box",

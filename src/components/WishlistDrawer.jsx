@@ -3,11 +3,11 @@ import { X, Heart, ShoppingBag, Trash2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import OrderModal from "@/components/OrderModal";
 
-const WISHLIST_STORAGE_KEY = "dar_ul_hadaya_wishlist_items";
+const WISHLIST_STORAGE_KEY = "auren_wishlist_items";
 
 export function getWishlist() {
   try {
-    const saved = localStorage.getItem(WISHLIST_STORAGE_KEY);
+    const saved = localStorage.getItem(WISHLIST_STORAGE_KEY) || localStorage.getItem("dar_ul_hadaya_wishlist_items");
     if (saved) return JSON.parse(saved);
   } catch (e) {}
   return [];

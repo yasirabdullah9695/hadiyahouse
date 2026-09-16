@@ -90,7 +90,7 @@ export default function ProductDetail() {
   };
 
   const handleShareProduct = () => {
-    const text = `Check out ${product?.name} at Dar-Ul-Hadaya: ${window.location.href}`;
+    const text = `Check out ${product?.name} at Auren: ${window.location.href}`;
     if (navigator.share) {
       navigator.share({ title: product?.name, text, url: window.location.href }).catch(() => {});
     } else {

@@ -44,7 +44,7 @@ export default function ProductImageCarousel({
   if (validImages.length === 0) {
     return (
       <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/30 shadow-lg relative flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest uppercase">
-        Dar-Ul-Hadaya
+        AUREN
       </div>
     );
   }

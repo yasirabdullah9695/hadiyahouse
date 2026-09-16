@@ -65,7 +65,7 @@ export default function SearchModal({ isOpen, onClose }) {
         <div className="max-h-[60vh] overflow-y-auto p-4 custom-scrollbar">
           {query.trim() === "" ? (
             <div className="py-8 text-center text-[12px] text-[#F9F7F2]/50 space-y-3">
-              <p>Type to search products across Dar-Ul-Hadaya collection</p>
+              <p>Type to search products across Auren collection</p>
               <div className="flex flex-wrap justify-center gap-2 pt-2">
                 {["Nikah", "Attar", "Prayer Mat", "Calligraphy", "Tasbeeh"].map((tag) => (
                   <button
