@@ -150,18 +150,23 @@ export default function ChooseYourHadiya() {
         >
 
           {/* COLUMN 1: Signature Packaging Image Card (3 cols) */}
-          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 overflow-hidden flex flex-col justify-between shadow-lg">
-            <div className="relative w-full h-[260px] lg:h-[320px] bg-[#121620] overflow-hidden">
+          <div className="lg:col-span-3 bg-[#181E2C] rounded-2xl border border-[#D4C3A5]/30 overflow-hidden flex flex-col shadow-lg group">
+            <div className="relative w-full flex-1 min-h-[300px] bg-[#121620] overflow-hidden">
               <img
-                src="/signature_box_packaging.jpg"
+                src={PACKAGING_IMG}
                 alt="Auren Signature Box & Bag"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#181E2C] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#181E2C] via-transparent to-black/10" />
+              
+              {/* Luxury included tag */}
+              <div className="absolute top-3 left-3 bg-[#121620]/85 backdrop-blur-md border border-[#D4C3A5]/40 px-3 py-1 rounded-full text-[9px] tracking-[0.18em] font-bold text-[#D4C3A5] uppercase shadow-md">
+                ✨ INCLUDED FREE
+              </div>
             </div>
             <div className="p-4 text-center border-t border-[#D4C3A5]/20 bg-[#181E2C]">
               <h3 className="font-display text-base text-[#D4C3A5]">Auren Signature Box</h3>
-              <p className="text-[11px] text-[#F9F7F2]/60 mt-0.5">Gifts with Meaning.</p>
+              <p className="text-[11px] text-[#F9F7F2]/60 mt-0.5">Luxury Box & Ribbon Bag Included</p>
             </div>
           </div>
 
