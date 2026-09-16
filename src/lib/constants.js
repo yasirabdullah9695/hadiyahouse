@@ -5,8 +5,8 @@ export const ADMIN_EMAIL = "yasirsabdullah02@gmail.com";
 export const ADMIN_PASSWORD = "yasir9695@";
 export const ORDER_NOTIFICATION_EMAIL = "yasirsabdullah02@gmail.com";
 
-export const LOGO_URL = "/auren_logo_transparent.png";
-export const LOGO_ICON_URL = "/auren_logo_transparent.png";
+export const LOGO_URL = "/auren_logo_white.png";
+export const LOGO_ICON_URL = "/auren_logo_white.png";
 
 export const CATEGORIES = [
   { key: "Nikah", label: "Nikah", subtitle: "For Bride & Groom", accent: "#D4C3A5" },

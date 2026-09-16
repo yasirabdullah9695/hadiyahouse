@@ -40,11 +40,11 @@ export default function Navbar() {
             
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="h-11 sm:h-13 flex-shrink-0 flex items-center">
+              <div className="h-11 sm:h-12 flex-shrink-0 flex items-center bg-white rounded-xl px-2 py-1 shadow-sm">
                 <img
                   src={LOGO_ICON_URL}
                   alt="Auren"
-                  className="h-full w-auto max-w-[140px] sm:max-w-[160px] object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="h-full w-auto max-w-[130px] sm:max-w-[150px] object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col">

@@ -19,8 +19,8 @@ export default function Footer() {
           {/* Col 1: Brand & Socials */}
           <div className="col-span-2 md:col-span-1 space-y-2">
             <div className="flex items-center gap-2.5">
-              <div className="h-10 w-auto flex-shrink-0 flex items-center">
-                <img src={LOGO_URL} alt="Auren" className="h-full w-auto max-w-[120px] object-contain" />
+              <div className="h-10 w-auto flex-shrink-0 flex items-center bg-white rounded-lg px-1.5 py-0.5">
+                <img src={LOGO_URL} alt="Auren" className="h-full w-auto max-w-[100px] object-contain" />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="font-display text-base tracking-[0.2em] text-[#D4C3A5] font-semibold">Auren</span>
