@@ -36,7 +36,7 @@ export default function ProductCard({ product, index = 0 }) {
     "Customisable": "bg-[#1A1F2C] text-[#D4C3A5]",
   };
 
-  const imageSrc = product.image || DEFAULT_FALLBACK;
+  const imageSrc = (product.images?.[0] ?? product.image) || DEFAULT_FALLBACK;
 
   return (
     <>

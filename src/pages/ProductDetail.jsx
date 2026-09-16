@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import OrderModal from "@/components/OrderModal";
 import ProductCard from "@/components/ProductCard";
 import { productsApi } from "@/api/apiClient";
+import ProductImageCarousel from "@/components/ProductImageCarousel";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -145,19 +146,7 @@ export default function ProductDetail() {
           {/* Sticky image */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/30 shadow-lg relative">
-              {product.image ? (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://media.base44.com/images/public/6a8a98432ec51b3deb4874f3/9b09ca91f_generated_75b6932a.png";
-                  }}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[11px] tracking-widest">DAR-UL-HADAYA</div>
-              )}
+              <ProductImageCarousel images={product.images?.length ? product.images : (product.image ? [product.image] : [])} />
               {product.badge && (
                 <span className="absolute top-4 left-4 text-[9px] tracking-[0.18em] font-bold px-3 py-1.5 rounded-full bg-[#1A1F2C] text-[#D4C3A5] uppercase shadow-md border border-[#D4C3A5]/40">
                   {product.badge}
@@ -377,3 +366,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+

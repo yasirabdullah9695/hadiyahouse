@@ -9,7 +9,7 @@ const EMPTY = {
   price: "",
   type: "Gift Box",
   category: "Nikah",
-  image: "",
+  images: [],
   inclusions: [],
   badge: "",
   gender: "all",
@@ -54,7 +54,7 @@ export default function AdminProductForm({ product, onClose, onSaved }) {
     try {
       const result = await uploadApi.uploadImage(file);
       if (result && (result.file_url || result.url)) {
-        setForm((f) => ({ ...f, image: result.file_url || result.url }));
+        setForm((f) => ({ ...f, images: [...(f.images || []), result.file_url || result.url] }));
       } else {
         throw new Error("No image URL returned from server");
       }
@@ -105,10 +105,44 @@ export default function AdminProductForm({ product, onClose, onSaved }) {
           <div>
             <label className="block text-[10px] tracking-[0.15em] font-semibold text-[#1A1F2C] mb-2">PRODUCT IMAGE</label>
             <div className="flex items-center gap-4">
-              <div className="w-24 h-28 rounded-lg overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/30 flex-shrink-0">
-                {form.image ? (
-                  <img src={form.image} alt="preview" className="w-full h-full object-cover" />
-                ) : (
+              {/* Multi-image upload UI */
+<div className="flex flex-col gap-4">
+  {/* Thumbnails */}
+  <div className="flex flex-wrap gap-2">
+    {form.images && form.images.map((img, idx) => (
+      <div key={idx} className="relative w-24 h-28 rounded-lg overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/30">
+        <img src={img} alt={`preview-${idx}`} className="w-full h-full object-cover" />
+        <button
+          type="button"
+          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+          onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, i) => i !== idx) }))}
+        >×</button>
+      </div>
+    ))}
+  </div>
+  {/* Upload button */}
+  <label className="flex items-center gap-2 text-[11px] tracking-[0.15em] font-semibold text-[#1A1F2C] border border-[#1A1F2C]/30 px-4 py-2.5 rounded-full cursor-pointer hover:bg-[#1A1F2C] hover:text-[#F9F7F2] transition-colors">
+    {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+    {uploading ? "UPLOADING..." : "UPLOAD IMAGE"}
+    <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+  </label>
+  {/* URL input */}
+  <input
+    type="text"
+    placeholder="or paste image URL and press Enter"
+    className="w-full bg-white border border-[#D4C3A5]/40 rounded-lg px-4 py-2.5 text-[13px] focus:outline-none focus:border-[#1A1F2C]"
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && e.currentTarget.value.trim()) {
+        const url = e.currentTarget.value.trim();
+        setForm(f => ({ ...f, images: [...(f.images || []), url] }));
+        e.currentTarget.value = "";
+      }
+    }}
+  />
+</div>
+                
+                  
+
                   <div className="w-full h-full flex items-center justify-center text-[#1A1F2C]/30 text-[10px]">No image</div>
                 )}
               </div>
@@ -118,14 +152,7 @@ export default function AdminProductForm({ product, onClose, onSaved }) {
                 <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
               </label>
             </div>
-            <input
-              type="text"
-              name="image"
-              value={form.image}
-              onChange={handleChange}
-              placeholder="or paste image URL"
-              className="w-full mt-3 bg-white border border-[#D4C3A5]/40 rounded-lg px-4 py-2.5 text-[13px] focus:outline-none focus:border-[#1A1F2C]"
-            />
+
           </div>
 
           <div className="grid grid-cols-2 gap-4">
