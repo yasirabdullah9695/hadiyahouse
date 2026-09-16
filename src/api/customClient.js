@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env?.VITE_BACKEND_URL?.replace(/\\/+$/, "") || "";
+const BACKEND_ENV = import.meta.env.VITE_BACKEND_URL || "";
+const BASE_URL = BACKEND_ENV.endsWith("/") ? BACKEND_ENV.slice(0, -1) : BACKEND_ENV;
 
 const jsonHeaders = {
   "Content-Type": "application/json",
@@ -6,7 +7,8 @@ const jsonHeaders = {
 };
 
 async function request(path, options = {}) {
-  const resp = await fetch(`${BASE_URL}${path}`, {
+  const url = `${BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  const resp = await fetch(url, {
     credentials: "include",
     ...options,
     headers: { ...(options.headers || {}), ...jsonHeaders },
@@ -22,28 +24,20 @@ async function request(path, options = {}) {
 }
 
 export const auth = {
-  // POST /auth/login {email,password}
   login: ({ email, password }) =>
-    request("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
-  // POST /auth/logout
-  logout: () => request("/auth/logout", { method: "POST" }),
-  // GET /auth/me
-  me: () => request("/auth/me"),
-  // POST /auth/register {email,password}
+    request("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
+  logout: () => request("/api/auth/logout", { method: "POST" }),
+  me: () => request("/api/auth/me"),
   register: ({ email, password }) =>
-    request("/auth/register", { method: "POST", body: JSON.stringify({ email, password }) }),
-  // POST /auth/otp/verify {email,otpCode}
+    request("/api/auth/register", { method: "POST", body: JSON.stringify({ email, password }) }),
   verifyOtp: ({ email, otpCode }) =>
-    request("/auth/otp/verify", { method: "POST", body: JSON.stringify({ email, otpCode }) }),
-  // POST /auth/otp/resend {email}
+    request("/api/auth/otp/verify", { method: "POST", body: JSON.stringify({ email, otpCode }) }),
   resendOtp: (email) =>
-    request("/auth/otp/resend", { method: "POST", body: JSON.stringify({ email }) }),
-  // POST /auth/forgot-password {email}
+    request("/api/auth/otp/resend", { method: "POST", body: JSON.stringify({ email }) }),
   forgotPassword: (email) =>
-    request("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
-  // POST /auth/reset-password {token,password}
+    request("/api/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
   resetPassword: ({ token, password }) =>
-    request("/auth/reset-password", { method: "POST", body: JSON.stringify({ token, password }) }),
+    request("/api/auth/reset-password", { method: "POST", body: JSON.stringify({ token, password }) }),
 };
 
 export const api = {

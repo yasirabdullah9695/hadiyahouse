@@ -145,14 +145,11 @@ export default function ProductDetail() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Sticky image */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#F0EDE5] border border-[#D4C3A5]/30 shadow-lg relative">
-              <ProductImageCarousel images={product.images?.length ? product.images : (product.image ? [product.image] : [])} />
-              {product.badge && (
-                <span className="absolute top-4 left-4 text-[9px] tracking-[0.18em] font-bold px-3 py-1.5 rounded-full bg-[#1A1F2C] text-[#D4C3A5] uppercase shadow-md border border-[#D4C3A5]/40">
-                  {product.badge}
-                </span>
-              )}
-            </div>
+            <ProductImageCarousel
+              images={product.images?.length ? product.images : (product.image ? [product.image] : [])}
+              badge={product.badge}
+              name={product.name}
+            />
           </div>
 
           {/* Details */}
